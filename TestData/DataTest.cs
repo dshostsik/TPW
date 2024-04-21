@@ -1,3 +1,5 @@
+using Data;
+
 namespace TestData
 {
     [TestClass]
@@ -6,6 +8,8 @@ namespace TestData
         [TestMethod]
         public void TestMethod1()
         {
+            DataAbstract data = DataAbstract.init();
+            Assert.IsNotNull(data);
         }
     }
 }

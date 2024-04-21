@@ -1,8 +1,8 @@
 ﻿
 namespace Data
 {
-    internal class Data : DataAbstract
+    internal class DataAPI : DataAbstract
     {
-        public Data() { }
+        public DataAPI() { }
     }
 }
