@@ -10,7 +10,7 @@ namespace Logic
 {
     public abstract class LogicAbstractAPI
     {
-        public static LogicAbstractAPI initData(DataAbstract? dataAbstract = null) {
+        public static LogicAbstractAPI initialize(DataAbstract? dataAbstract = null) {
             if (dataAbstract != null) { 
                 return new Table(720, 1080, dataAbstract); 
             }

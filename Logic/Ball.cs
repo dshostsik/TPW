@@ -20,8 +20,8 @@ namespace Logic
         public int _posX { get; set; }
         public int _posY { get; set; }
         public int _radius { get; set; }
-        public int _speedX { get; set; }
-        public int _speedY { get; set; }
+        private int _speedX { get; set; }
+        private int _speedY { get; set; }
         public override int posX { get => _posX; set { _posX = value; RaisePropertyChanged(String.Empty); } }            
         public override int posY { get => _posY; set { _posY = value; RaisePropertyChanged(String.Empty); } }
         public override int radius { get => _radius; set => _radius = value; }
@@ -32,9 +32,11 @@ namespace Logic
             _posY = y;
         }
 
-        public override bool collides(int xBorder, int yBorder)
+        public override bool isInside (int xBorder, int yBorder)
         {
-            if ((this._posX+this.radius == xBorder) || (this._posY+this.radius == yBorder))
+            if (((this._posX+this.radius < xBorder) && (this._posX + this.radius > 0)) 
+                    &&
+                 ((this._posY + this.radius > 0) && (this._posY+this.radius < yBorder)))
             {
                 return true;
             }

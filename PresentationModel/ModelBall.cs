@@ -17,6 +17,12 @@ namespace PresentationModel
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public ModelBall(int X, int Y, int R) { 
+            _posix = X;
+            _posix = Y;
+            _posix = R;
+        }
+
         public override int posix { get => _posix;
             set { _posix = value; RaisePropertyChanged("PositionXModelBall"); } }
         public override int posiy { get => _posiy;
@@ -25,9 +31,9 @@ namespace PresentationModel
             set { _radius = value; RaisePropertyChanged("RadiusModelBall"); }
         }
 
-        public int _posix { get; set;  }
-        public int _posiy { get; set; }
-        public int _radius { get; set; }
+        private int _posix { get; set;  }
+        private int _posiy { get; set; }
+        private int _radius { get; set; }
         
 
         public override void updateModelBall(object o, PropertyChangedEventArgs args)

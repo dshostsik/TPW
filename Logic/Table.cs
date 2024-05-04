@@ -39,7 +39,7 @@ namespace Logic
                 {
                     while (!workStop) {
                         ball.setSpeed(5,5);
-                    if (ball.collides(_width, _height)) {
+                    if (ball.isInside(_width, _height)) {
                             ball.move(ball.getXSpeed(), ball.getYSpeed());
                             Thread.Sleep(100);
                         }
@@ -68,12 +68,27 @@ namespace Logic
 
         public override void removeBalls()
         {
-            throw new NotImplementedException();
+            workStop = false;
+
+            foreach(Task task in tasks)
+            {
+                if (task.IsCompleted)
+                {
+                    task.Dispose();
+                }
+            }
+
+            tasks.Clear();
+            yourBalls.Clear();
         }
 
         public override void begin()
         {
             workStop = false;
+            foreach(Task task in tasks)
+            {
+                task.Start();
+            }
         }
     }
 }

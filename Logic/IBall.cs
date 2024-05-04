@@ -19,7 +19,7 @@ namespace Logic
 
         public abstract void move(int deltaX, int deltaY);
         public abstract void setSpeed(int newXSpeed, int newYSpeed);
-        public abstract bool collides(int xBorder, int yBorder);
+        public abstract bool isInside(int xBorder, int yBorder);
 
         public abstract int getXSpeed();
         public abstract int getYSpeed();

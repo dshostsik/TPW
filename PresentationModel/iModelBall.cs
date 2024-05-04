@@ -4,8 +4,8 @@ namespace PresentationModel
 {
     public abstract class iModelBall : INotifyPropertyChanged
     {
-        public static iModelBall createModelBallInstance() {
-            return new ModelBall();
+        public static iModelBall createModelBallInstance(int x, int y, int r) {
+            return new ModelBall(x, y, r);
         }
 
         public abstract event PropertyChangedEventHandler? PropertyChanged;

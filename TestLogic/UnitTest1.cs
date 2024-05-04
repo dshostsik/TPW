@@ -6,6 +6,7 @@ namespace TestLogic
         [TestMethod]
         public void TestMethod1()
         {
+
         }
     }
 }
