@@ -50,7 +50,7 @@
         FontSize="20"
         Height="32"
         HorizontalAlignment="Left"
-        Margin="625,296,0,0"
+        Margin="615,297,0,0"
         VerticalAlignment="Top"
         Width="61" RenderTransformOrigin="0.514,0.531" >
             <Button.RenderTransform>
@@ -73,13 +73,13 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding PositionX}" />
-                    <Setter Property="Canvas.Top" Value="{Binding PositionY}" />
+                    <Setter Property="Canvas.Left" Value="{Binding posix}" />
+                    <Setter Property="Canvas.Top" Value="{Binding posiy}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Ellipse Width= "{Binding Radius}" Height="{Binding Radius}" Fill="DarkRed">
+                    <Ellipse Width= "{Binding radius}" Height="{Binding radius}" Fill="DarkRed">
                         <Ellipse.RenderTransform>
                             <TranslateTransform X="-20" Y="-20" />
                         </Ellipse.RenderTransform>
