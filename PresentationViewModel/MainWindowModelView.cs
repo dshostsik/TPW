@@ -8,7 +8,7 @@ using PresentationModel;
 
 namespace PresentationViewModel
 {
-    public class Main : changedProperty
+    public class MainWindowModelView : changedProperty
     {
         private iModelAPI model;
         public ObservableCollection<iModelBall> iModelBalls => model.ModelBalls();
@@ -19,9 +19,9 @@ namespace PresentationViewModel
 
         private int radius = 60;
 
-        private String amount { get => _amount; set { _amount = value; RaisePropertyChanged(String.Empty); } }
+        public String amount { get => _amount; set { _amount = value; RaisePropertyChanged(String.Empty); } }
 
-        public Main() { 
+        public MainWindowModelView() { 
             model = iModelAPI.Instance();
             Start = new RelayCommand(StartProcess);
             Stop = new RelayCommand(StopProcess);
