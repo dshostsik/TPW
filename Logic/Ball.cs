@@ -34,9 +34,9 @@ namespace Logic
 
         public override bool isInside (int xBorder, int yBorder)
         {
-            if (((this._posX+this.radius < xBorder) && (this._posX - this.radius > 0)) 
+            if (((this._posX+this._speedX+this.radius < xBorder) && (this._posX+this._speedX - this.radius > 0)) 
                     &&
-                 ((this._posY - this.radius > 0) && (this._posY+this.radius < yBorder)))
+                 ((this._posY + this._speedY - this.radius > 0) && (this._posY + this._speedY + this.radius < yBorder)))
             {
                 return true;
             }
