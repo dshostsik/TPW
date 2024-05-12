@@ -7,4 +7,9 @@
             return new DataAPI(); 
         }
     }
+
+    internal class DataAPI : DataAbstract
+    {
+        public DataAPI() { }
+    }
 }
