@@ -12,6 +12,9 @@ namespace ViewModelAPI
     public class ViewModelAPI : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        private bool enabled { get; set; } = false;
+
         protected void RaisePropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -49,12 +52,15 @@ namespace ViewModelAPI
         {
             int integerAmount = int.Parse(amount);
             model.start(integerAmount, radius);
+            enabled = true;
             RaisePropertyChanged("ProcessStarted");
         }
 
         public void StopProcess()
         {
+            model.stop();
             model.removeBalls();
+            enabled = false;
             RaisePropertyChanged("ProcessStopped");
         }
     }
