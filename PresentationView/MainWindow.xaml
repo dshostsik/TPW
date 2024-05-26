@@ -64,7 +64,7 @@
         </Button>
         <ItemsControl
         Height="420"
-        ItemsSource="{Binding iModelBalls}"
+        ItemsSource="{Binding Balls}"
         Margin="18,10,207,10">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -73,8 +73,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding posix}" />
-                    <Setter Property="Canvas.Top" Value="{Binding posiy}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Top}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>

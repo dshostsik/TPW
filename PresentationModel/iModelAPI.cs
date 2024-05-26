@@ -10,69 +10,62 @@ namespace PresentationModel
 {
     public abstract class iModelAPI
     {
-        public static iModelAPI Instance() { 
-            return new ModelAPI();
+        
+        public abstract int _width { get; }
+        public abstract int _height { get;  }
+
+        public abstract void AddBalls(int amount);
+        
+        public static iModelAPI Instance(int width, int height) { 
+            return new ModelAPI(width, height);
         }
 
-        public abstract void start(int amount, int radius);
+        public ObservableCollection<ModelBall> Balls;
         public abstract void stop();
-        public abstract void removeBalls();
-        public abstract ObservableCollection<iModelBall> ModelBalls();
+
+        internal class ModelAPI : iModelAPI
+        {
+            private LogicAbstractAPI logic;
+            public override int _width { get; }
+            public override int _height { get; }
+
+            public override void AddBalls(int amount)
+            {
+                logic.addBalls(amount);
+                for (int i = 0; i < amount; i++)
+                {
+                    ModelBall ballModel = new ModelBall(logic.getPositionOfABall(i).X, logic.getPositionOfABall(i).Y,
+                        logic.getBallsRadius(i));
+                    Balls.Add(ballModel);
+                }
+            }
+
+            public ModelAPI(int width, int height)
+            {
+                _width = width;
+                _height = height;
+                logic = LogicAbstractAPI.initialize(_width, _height);
+                Balls = new ObservableCollection<ModelBall>();
+                logic.LogicLayerEvent += UpdateBall;
+            }
+
+            private void UpdateBall(object? sender, (int id, float x, float y, int radius) args)
+            {
+                if (args.id >= Balls.Count)
+                {
+                    return;
+                }
+
+                Balls[args.id].Move(args.x - args.radius, args.y - args.radius);
+            }
+
+            public override void stop()
+            {
+                logic.removeBalls();
+                Balls.Clear();
+            }
+        }
     }
 
-    internal class ModelAPI : iModelAPI, IDisposable
-    {
-        private LogicAbstractAPI logic;
-        ObservableCollection<iModelBall> observedBalls;
-        private Timer timer;
-
-
-        public ModelAPI()
-        {
-            logic = LogicAbstractAPI.initialize();
-        }
-
-        public void Dispose()
-        {
-            timer.Dispose();
-        }
-
-        public override ObservableCollection<iModelBall> ModelBalls()
-        {
-            observedBalls.Clear();
-            foreach (IBall ball in logic.GetBalls())
-            {
-                ModelBall observedBall = new ModelBall(ball.posX, ball.posY, ball.radius);
-                observedBalls.Add(observedBall);
-            }
-            return observedBalls;
-        }
-
-        private void moveBalls(object? state)
-        {
-            logic.moveBall();
-            for (int i = 0; i < observedBalls.Count; i++)
-            {
-                observedBalls[i].posix = logic.GetBalls()[i].posX;
-                observedBalls[i].posiy = logic.GetBalls()[i].posY;
-            }
-        }
-
-        public override void removeBalls()
-        {
-            logic.removeBalls();
-        }
-
-        public override void start(int amount, int radius)
-        {
-            logic.addBalls(amount, radius);
-            timer = new Timer(moveBalls, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
-        }
-
-        public override void stop()
-        {
-            this.Dispose();
-            logic.removeBalls();
-        }
-    }
+    
 }

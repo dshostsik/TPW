@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Numerics;
 
-namespace Logic
+namespace Data
 {
 
     internal class Ball : IBall
@@ -15,6 +9,7 @@ namespace Logic
         private Stopwatch _stopwatch;
         private Task _task;
         private Vector2 _position;
+        private Vector2 _speed;
         private bool _move = true;
         private int _radius;
         private int _weight;
@@ -39,7 +34,7 @@ namespace Logic
             }
         }
 
-        public Vector2 _speed { get => _speed;
+        public Vector2 speed { get => _speed;
             set
             {
                 _speed = value;
@@ -54,25 +49,25 @@ namespace Logic
             _speed = speed;
             _weight = weight;
             number = newNumber;
-            _task = Task.Run(move);
+            _task = Task.Run(Move);
         }
 
         
-        public async void move()
+        public async void Move()
         {
-            int delay = 10;
+            int delay = 15;
 
             while(_move)
             {
                 _stopwatch.Restart();
                 _stopwatch.Start();
-                updatePosition(delay);
+                UpdatePosition(delay);
                 _stopwatch.Stop();
                 await Task.Delay(delay - (int)_stopwatch.ElapsedMilliseconds < 0 ? 0 : delay - (int)_stopwatch.ElapsedMilliseconds);
             }
         }
 
-        public void updatePosition(long time)
+        public void UpdatePosition(long time)
         {
             position += _speed * time;
             _changed?.Invoke(this, EventArgs.Empty);

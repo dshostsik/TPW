@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using PresentationModel;
 
 namespace ViewModelAPI
@@ -13,22 +10,20 @@ namespace ViewModelAPI
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private bool enabled { get; set; } = false;
+        public int width { get; } = 500;
+        public int height { get; } = 500;
 
-        protected void RaisePropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        private bool _enabled { get; set; } = true;
+        private bool _disabled { get; set; } = false;
+        private string _inputNumber = "3";
+        public ICommand Start { get; set; }
+        public ICommand Stop { get; set; }
+        public ObservableCollection<ModelBall> Balls { get; }
         private iModelAPI model;
-        public ObservableCollection<iModelBall> iModelBalls => model.ModelBalls();
-        public RelayCommand Start { 
-                get; 
-            }
-        public RelayCommand Stop { 
-                get;
-            }
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+           this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private String _amount;
 
@@ -43,25 +38,28 @@ namespace ViewModelAPI
         }
 
         public ViewModelAPI() { 
-            model = iModelAPI.Instance();
-            Start = new RelayCommand(StartProcess);
-            Stop = new RelayCommand(StopProcess);
+            model = iModelAPI.Instance(width, height);
+            Start = new RelayCommand(() => StartProcess());
+            Stop = new RelayCommand(() => StopProcess());
         }
 
         public void StartProcess()
         {
             int integerAmount = int.Parse(amount);
-            model.start(integerAmount, radius);
-            enabled = true;
-            RaisePropertyChanged("ProcessStarted");
+            if (integerAmount > 0)
+            {
+                this._enabled = true;
+                this._disabled = false;
+                model.AddBalls(integerAmount);
+            }
         }
 
         public void StopProcess()
         {
             model.stop();
-            model.removeBalls();
-            enabled = false;
-            RaisePropertyChanged("ProcessStopped");
+            Balls.Clear();
+            this._enabled = false;
+            this._disabled = true;
         }
     }
 }

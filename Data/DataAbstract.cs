@@ -1,4 +1,4 @@
-﻿using Logic;
+﻿using System.Collections.ObjectModel;
 using System.Numerics;
 
 namespace Data
@@ -21,10 +21,11 @@ namespace Data
 
         internal class DataAPI : DataAbstract
         {
+            private readonly Random random = new Random();
             public DataAPI(int startWidth, int startHeight) {
                 width = startWidth;
                 height = startHeight;
-                List<IBall> balls = new List<IBall>();
+                balls = new List<IBall>();
             }
 
             private List<IBall> balls;
@@ -43,7 +44,6 @@ namespace Data
 
             public override void createBalls(int amountOfBalls)
             {
-                Random random = new Random();
                 for (int i = 0; i < amountOfBalls; i++) {
                     float speedX = (float)((random.NextDouble() - 0.5) / 2);
                     float speedY = (float)((random.NextDouble() - 0.5) / 2);
