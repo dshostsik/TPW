@@ -97,7 +97,8 @@ namespace Logic
 
                     if(!checkedCollision(observedBall, ball) && collides(observedBall, ball))
                     {
-
+                        //TODO
+                        
                     }
                 }
             }

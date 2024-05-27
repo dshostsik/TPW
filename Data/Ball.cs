@@ -17,11 +17,13 @@ namespace Data
         public event EventHandler? _changed;
 
         public int number { get; }
-
+        // źle - dane są niespójne | плохо - данные асинхронные
         public float posX => _position.X;
 
         public float posY => _position.Y;
-
+        //
+        
+        
         public int radius { get => _radius; }
 
         public int weight { get; }
