@@ -6,8 +6,6 @@ namespace Data
     public interface IBall : IDisposable
     {
         int number { get; }
-        float posX { get; }
-        float posY { get; }
         int radius { get; }
         int weight { get; }
         Vector2 position { get; }

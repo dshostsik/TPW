@@ -17,16 +17,17 @@ namespace Data
         public event EventHandler? _changed;
 
         public int number { get; }
-        // źle - dane są niespójne | плохо - данные асинхронные
-        public float posX => _position.X;
-
-        public float posY => _position.Y;
-        //
-        
         
         public int radius { get => _radius; }
 
-        public int weight { get; }
+        public int weight
+        {
+            get => _weight;
+            private set
+            {
+                _weight = value;
+            }
+        }
 
         public Vector2 position {  
             get => _position;
@@ -57,19 +58,20 @@ namespace Data
         
         public async void Move()
         {
-            int delay = 15;
+            float time;
 
             while(_move)
             {
                 _stopwatch.Restart();
                 _stopwatch.Start();
-                UpdatePosition(delay);
+                time = (2 / _speed.Length());
+                UpdatePosition(time);
                 _stopwatch.Stop();
-                await Task.Delay(delay - (int)_stopwatch.ElapsedMilliseconds < 0 ? 0 : delay - (int)_stopwatch.ElapsedMilliseconds);
+                await Task.Delay(time - (int)_stopwatch.ElapsedMilliseconds < 0 ? 0 : (int)time - (int)_stopwatch.ElapsedMilliseconds);
             }
         }
 
-        public void UpdatePosition(long time)
+        public void UpdatePosition(float time)
         {
             position += _speed * time;
             _changed?.Invoke(this, EventArgs.Empty);
@@ -78,6 +80,7 @@ namespace Data
         public void Dispose()
         {
             _move = false;
+            _task.Wait();
             _task.Dispose();
         }
     }

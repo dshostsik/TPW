@@ -12,8 +12,6 @@ namespace TestLogic
         internal class ballForTests : IBall
         { private Stopwatch _stopwatch;
             public int number { get; }
-            public float posX { get; }
-            public float posY { get; }
             public int radius { get; }
             public int weight { get; }
 

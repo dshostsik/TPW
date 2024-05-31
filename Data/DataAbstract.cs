@@ -21,6 +21,8 @@ namespace Data
 
         internal class DataAPI : DataAbstract
         {
+            private FileDAO dao;
+            
             private readonly Random random = new Random();
             public DataAPI(int startWidth, int startHeight) {
                 width = startWidth;
@@ -44,23 +46,27 @@ namespace Data
 
             public override void createBalls(int amountOfBalls)
             {
-                for (int i = 0; i < amountOfBalls; i++) {
-                    float speedX = (float)((random.NextDouble() - 0.5) / 2);
-                    float speedY = (float)((random.NextDouble() - 0.5) / 2);
+                dao = new FileDAO(width, height);
+                for (int i = 0; i < amountOfBalls; i++)
+                {
+                    float scale = 1;
+                    float speedX = (float)((random.NextDouble() - 0.5) / scale);
+                    float speedY = (float)((random.NextDouble() - 0.5) / scale);
 
                     while (speedX == 0 & speedY == 0)
                     {
-                        speedX = random.Next(-2, 2);
-                        speedY = random.Next(-2, 2);
+                        speedX = (float)((random.NextDouble() - 0.5) * scale);
+                        speedY = (float)((random.NextDouble() - 0.5) * scale);
                     }
 
                     Vector2 speeds = new Vector2(speedX, speedY);
                     int radius = random.Next(10, 20);
                     int weight = 4 * radius;
                     float x = (float)(random.Next(20 + 2 * radius, width - 2 * radius - 20) + random.NextDouble());
-                    float y = (float)(random.Next(20 + 2 * radius, width - 2 * radius - 20) + random.NextDouble());
+                    float y = (float)(random.Next(20 + 2 * radius, height - 2 * radius - 20) + random.NextDouble());
 
                     Ball ball = new Ball(i, radius, weight, x, y, speeds);
+                    ball._changed += (object? sender,EventArgs args) => dao.FillQueue((IBall)sender); 
                     balls.Add(ball);
                 }
             }
