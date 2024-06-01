@@ -51,7 +51,7 @@ namespace Data
                 Writer.Flush();
             }
         }
-        
+        //comment for commit
         public void Dispose()
         {
             Queue.CompleteAdding();
