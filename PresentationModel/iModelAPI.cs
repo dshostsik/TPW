@@ -20,7 +20,7 @@ namespace PresentationModel
             return new ModelAPI(width, height);
         }
 
-        public ObservableCollection<ModelBall> Balls;
+        public ObservableCollection<ModelBall> Balls { get; set; }
         public abstract void stop();
 
         internal class ModelAPI : iModelAPI
@@ -31,11 +31,11 @@ namespace PresentationModel
 
             public override void AddBalls(int amount)
             {
-                logic.addBalls(amount);
+                logic.AddBalls(amount);
                 for (int i = 0; i < amount; i++)
                 {
-                    ModelBall ballModel = new ModelBall(logic.getPositionOfABall(i).X, logic.getPositionOfABall(i).Y,
-                        logic.getBallsRadius(i));
+                    ModelBall ballModel = new ModelBall(logic.GetPositionOfABall(i).X, logic.GetPositionOfABall(i).Y,
+                        logic.GetBallsRadius(i));
                     Balls.Add(ballModel);
                 }
             }
@@ -61,7 +61,7 @@ namespace PresentationModel
 
             public override void stop()
             {
-                logic.removeBalls();
+                logic.RemoveBalls();
                 Balls.Clear();
             }
         }

@@ -12,6 +12,5 @@ namespace Data
         Vector2 speed { get; set; }
 
         event EventHandler? _changed;
-
     }
 }

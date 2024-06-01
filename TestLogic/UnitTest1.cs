@@ -54,6 +54,7 @@ namespace TestLogic
                 }
             }
             
+            
             public void UpdatePosition(long time)
             {
                 position += _speed * time;
@@ -65,6 +66,10 @@ namespace TestLogic
             }
 
             public event EventHandler? _changed;
+            public void AcceptNewSpped(Vector2 newSpeed)
+            {
+                throw new NotImplementedException();
+            }
         }
         private DataAbstract data;
         private LogicAbstractAPI table;

@@ -37,6 +37,20 @@ namespace ViewModelAPI
                 } 
         }
 
+
+        public string InputNumber
+        {
+            get
+            {
+                return _inputNumber;
+            }
+            set
+            {
+                _inputNumber = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ViewModelAPI() { 
             model = iModelAPI.Instance(width, height);
             Start = new RelayCommand(() => StartProcess());
@@ -45,13 +59,23 @@ namespace ViewModelAPI
 
         public void StartProcess()
         {
-            int integerAmount = int.Parse(amount);
+            int integerAmount = GetInput();
             if (integerAmount > 0)
             {
                 this._enabled = true;
                 this._disabled = false;
                 model.AddBalls(integerAmount);
             }
+        }
+
+        public int GetInput()
+        {
+            if (Int32.TryParse(InputNumber, out int value) && InputNumber != "0")
+            {
+                return Int32.Parse(InputNumber);
+            }
+
+            return 0;
         }
 
         public void StopProcess()

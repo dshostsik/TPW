@@ -27,6 +27,8 @@ namespace PresentationModel
                 {
                     Top = Y - R;
                     Left = X - R;
+
+                    this._radius = R;
                 }
 
                 public float Left
