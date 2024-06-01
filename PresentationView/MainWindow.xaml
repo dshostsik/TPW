@@ -31,7 +31,7 @@
         FontSize="20"
         HorizontalAlignment="Left"
         Margin="614,185,0,0"
-        Text="{Binding amount}"
+        Text="{Binding InputNumber}"
         TextWrapping="Wrap"
         VerticalAlignment="Top"
         Width="174"  />

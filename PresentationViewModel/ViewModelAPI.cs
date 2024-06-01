@@ -38,6 +38,32 @@ namespace ViewModelAPI
         }
 
 
+        public bool enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                enabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                disabled = value;
+                RaisePropertyChanged();
+            }
+        }
+        
         public string InputNumber
         {
             get
