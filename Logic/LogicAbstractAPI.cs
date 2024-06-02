@@ -35,7 +35,7 @@ namespace Logic
             {
                 Height = height;
                 Width = width;
-                _dataLayer = data;
+                _dataLayer = data != null ? data : DataAbstract.init(height, width);
 
             }
 
