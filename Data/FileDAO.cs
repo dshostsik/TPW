@@ -8,7 +8,7 @@ namespace Data
         private Task Logger;
         private StreamWriter Writer;
         private BlockingCollection<BallData> Queue;
-        private string Path = "./log.txt";
+        private string Path = "../../../../Data/log.txt";
         private int Width;
         private int Height;
         private readonly object _writeLock = new();
@@ -18,6 +18,8 @@ namespace Data
         {
             Width = width;
             Height = height;
+            Queue = new BlockingCollection<BallData>();
+            Logger = Task.Run(write);
         }
 
 
