@@ -8,9 +8,11 @@ namespace Data
         private Task Logger;
         private StreamWriter Writer;
         private BlockingCollection<BallData> Queue;
-        private string Path = "../../../..Data/log.txt";
+        private string Path = "./log.txt";
         private int Width;
         private int Height;
+        private readonly object _writeLock = new();
+        private readonly object _fillQueueLock = new();
 
         public FileDAO(int width, int height)
         {
@@ -21,34 +23,41 @@ namespace Data
 
         public void FillQueue(IBall iball)
         {
-            if (iball == null)
+            lock (_fillQueueLock)
             {
-                return;
-            }
+                if (iball == null)
+                {
+                    return;
+                }
 
-            BallData servedBall = new BallData(iball.position.X, iball.position.Y, iball.radius, iball.weight,iball.speed.X,iball.speed.Y, iball.number);
-            if (!Queue.IsAddingCompleted && !Queue.IsCompleted)
-            {
-                Queue.Add(servedBall);
+                BallData servedBall = new BallData(iball.position.X, iball.position.Y, iball.radius, iball.weight,iball.speed.X,iball.speed.Y, iball.number);
+                if (!Queue.IsAddingCompleted && !Queue.IsCompleted)
+                {
+                    Queue.Add(servedBall);
+                }
             }
         }
 
         private void write()
         {
-            using (Writer = new StreamWriter(Path, append:false))
+            lock (_writeLock)
             {
-                JsonSerializerOptions jso = new JsonSerializerOptions();
-                jso.WriteIndented = true;
-                Writer.Write("\n");
-                Writer.Write("{" + string.Format("\n\t\"Width\": {0},\n\t\"Height\": {1}\n", Width, Height) + "}");
-                foreach (BallData ball in Queue.GetConsumingEnumerable())
+                using (Writer = new StreamWriter(Path, append: false))
                 {
-                    string log = JsonSerializer.Serialize(ball, jso);
-                    
-                    Writer.Write("," + "\n" + log);
+                    JsonSerializerOptions jso = new JsonSerializerOptions();
+                    jso.WriteIndented = true;
+                    Writer.Write("\n");
+                    Writer.Write("{" + string.Format("\n\t\"Width\": {0},\n\t\"Height\": {1}\n", Width, Height) + "}");
+                    foreach (BallData ball in Queue.GetConsumingEnumerable())
+                    {
+                        string log = JsonSerializer.Serialize(ball, jso);
+
+                        Writer.Write("," + "\n" + log);
+                    }
+
+                    Writer.Write("\n}");
+                    Writer.Flush();
                 }
-                Writer.Write("\n}");
-                Writer.Flush();
             }
         }
         //comment for commit
